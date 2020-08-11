@@ -1,0 +1,1 @@
+java -server -XX:+UseG1GC -Xbootclasspath/a:./config: -jar -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n ./application/wechat-app-0.0.1-SNAPSHOT.jar
