@@ -1,7 +1,0 @@
-booter\wechatapp\WechatAppApplication.class
-core\bean\TextRequestBean.class
-core\service\WechatReleaceService.class
-core\util\RequestUtils.class
-core\util\StringUtils.class
-core\bean\BaseRequestBean.class
-core\controller\ReleaseController.class
