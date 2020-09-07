@@ -41,6 +41,18 @@
             <artifactId>dom4j</artifactId>
             <version>1.1</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-mp</artifactId>
+            <version>3.8.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.soecode.wx-tools</groupId>
+            <artifactId>wx-tools</artifactId>
+            <version>2.1.4-RELEASE</version>
+        </dependency>
     </dependencies>
 
     <build>

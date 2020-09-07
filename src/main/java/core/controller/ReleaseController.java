@@ -1,5 +1,17 @@
 package core.controller;
 
+import com.soecode.wxtools.api.IService;
+import com.soecode.wxtools.api.WxConsts;
+import com.soecode.wxtools.api.WxMessageRouter;
+import com.soecode.wxtools.api.WxService;
+import com.soecode.wxtools.bean.WxXmlMessage;
+import com.soecode.wxtools.bean.WxXmlOutMessage;
+import com.soecode.wxtools.util.xml.XStreamTransformer;
+import core.constants.MenuKey;
+import core.handler.HelpDocHandler;
+import core.handler.WhoAmIHandler;
+import core.matcher.WhoAmIMatcher;
+import core.service.WechatReleaceService;
 import core.util.RequestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,7 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * 接收微信连接建立控制类
@@ -20,20 +34,11 @@ public class ReleaseController {
 
     private static Logger logger = LoggerFactory.getLogger(ReleaseController.class);
 
-    @Autowired
-
-
-    @RequestMapping
-    public boolean ensureConnection(HttpServletRequest request) {
-        logger.info("接收到一条新消息，走的是固定返回失败的路径");
-        return false;
-    }
-
-    @GetMapping("/sell/test")
+    @GetMapping
     public String testMsgGet(@RequestParam("signature") String signature,
-                              @RequestParam("timestamp") String timestamp,
-                              @RequestParam("nonce") String nonce,
-                              @RequestParam("echostr") String echostr) throws IOException {
+                             @RequestParam("timestamp") String timestamp,
+                             @RequestParam("nonce") String nonce,
+                             @RequestParam("echostr") String echostr) throws IOException {
         logger.info("接收到一条新消息:" + signature);
         // 通过检验signature对请求进行校验，若校验成功则原样返回echostr，表示接入成功，否则接入失败
         if (RequestUtils.checkSignature(signature, timestamp, nonce)) {
@@ -41,5 +46,35 @@ public class ReleaseController {
         }
 
         return "";
+    }
+
+    @PostMapping
+    public void handle(HttpServletRequest request,
+                       HttpServletResponse response) throws IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        PrintWriter out = response.getWriter();
+
+        IService iService = new WxService();
+        // 创建一个路由器
+        WxMessageRouter router = new WxMessageRouter(iService);
+        try {
+            // 微信服务器推送过来的是XML格式。
+            WxXmlMessage wx = XStreamTransformer.fromXml(WxXmlMessage.class, request.getInputStream());
+            logger.info("消息：\n " + wx.toString());
+            router.rule().msgType(WxConsts.XML_MSG_TEXT).matcher(new WhoAmIMatcher()).handler(new WhoAmIHandler()).end()
+                    .rule().event(WxConsts.EVT_CLICK).eventKey(MenuKey.HELP).handler(HelpDocHandler.getInstance()).end();
+            // 把消息传递给路由器进行处理
+            WxXmlOutMessage xmlOutMsg = router.route(wx);
+            if (xmlOutMsg != null) {
+                // 因为是明文，所以不用加密，直接返回给用户
+                out.print(xmlOutMsg.toXml());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            out.close();
+        }
     }
 }
