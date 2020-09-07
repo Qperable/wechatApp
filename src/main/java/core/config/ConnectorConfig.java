@@ -11,6 +11,11 @@ import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * 连接配置类
+ * @author wuyachong
+ * @date 20200705
+ */
 @Configuration
 public class ConnectorConfig {
 
