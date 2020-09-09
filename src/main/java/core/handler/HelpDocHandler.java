@@ -51,7 +51,8 @@ public class HelpDocHandler implements WxMessageHandler {
     }
 
     private WxXmlOutMessage execute(WxXmlMessage wxMessage) {
-        return WxXmlOutMessage.TEXT().content(ResponseConstant.HELP).toUser(wxMessage.getFromUserName()).fromUser(wxMessage.getToUserName()).build();
+        return WxXmlOutMessage.TEXT().content(ResponseConstant.HELP)
+                .toUser(wxMessage.getFromUserName()).fromUser(wxMessage.getToUserName()).build();
     }
 }
 

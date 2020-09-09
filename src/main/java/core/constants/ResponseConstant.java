@@ -8,5 +8,5 @@ package core.constants;
  */
 public class ResponseConstant {
 
-    public static final String HELP = "responseHelp";
+    public static final String HELP = "不知道你在说啥";
 }

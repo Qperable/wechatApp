@@ -9,15 +9,16 @@ import com.soecode.wxtools.bean.WxXmlOutMessage;
 import com.soecode.wxtools.util.xml.XStreamTransformer;
 import core.constants.MenuKey;
 import core.handler.HelpDocHandler;
-import core.handler.WhoAmIHandler;
-import core.matcher.WhoAmIMatcher;
-import core.service.WechatReleaceService;
+import core.handler.NormalTextHandler;
+import core.matcher.NormalTextMatcher;
+import core.service.WechatRouterDealService;
 import core.util.RequestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -33,6 +34,9 @@ import java.io.PrintWriter;
 public class ReleaseController {
 
     private static Logger logger = LoggerFactory.getLogger(ReleaseController.class);
+
+    @Resource
+    private WechatRouterDealService wechatRouterDealService;
 
     @GetMapping
     public String testMsgGet(@RequestParam("signature") String signature,
@@ -55,15 +59,12 @@ public class ReleaseController {
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
 
-        IService iService = new WxService();
-        // 创建一个路由器
-        WxMessageRouter router = new WxMessageRouter(iService);
         try {
             // 微信服务器推送过来的是XML格式。
             WxXmlMessage wx = XStreamTransformer.fromXml(WxXmlMessage.class, request.getInputStream());
             logger.info("消息：\n " + wx.toString());
-            router.rule().msgType(WxConsts.XML_MSG_TEXT).matcher(new WhoAmIMatcher()).handler(new WhoAmIHandler()).end()
-                    .rule().event(WxConsts.EVT_CLICK).eventKey(MenuKey.HELP).handler(HelpDocHandler.getInstance()).end();
+            // 创建一个路由器
+            WxMessageRouter router = wechatRouterDealService.instanceRouter();
             // 把消息传递给路由器进行处理
             WxXmlOutMessage xmlOutMsg = router.route(wx);
             if (xmlOutMsg != null) {

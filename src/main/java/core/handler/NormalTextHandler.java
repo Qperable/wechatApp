@@ -5,6 +5,7 @@ import com.soecode.wxtools.api.WxMessageHandler;
 import com.soecode.wxtools.bean.WxXmlMessage;
 import com.soecode.wxtools.bean.WxXmlOutMessage;
 import com.soecode.wxtools.exception.WxErrorException;
+import core.constants.RequestConstant;
 import core.constants.ResponseConstant;
 
 import java.util.Map;
@@ -15,7 +16,7 @@ import java.util.Map;
  * @author wuyachong
  * @date 2020/09/07
  */
-public class WhoAmIHandler implements WxMessageHandler {
+public class NormalTextHandler implements WxMessageHandler {
 
     private boolean isRun = false;
 
@@ -40,7 +41,17 @@ public class WhoAmIHandler implements WxMessageHandler {
     }
 
     private WxXmlOutMessage execute(WxXmlMessage wxMessage) {
-        return WxXmlOutMessage.TEXT().content(ResponseConstant.HELP).toUser(wxMessage.getFromUserName()).fromUser(wxMessage.getToUserName()).build();
+        String msg = wxMessage.getContent();
+        String content;
+        switch (msg) {
+            case RequestConstant.WHO_AM_I:
+                content = wxMessage.getFromUserName();
+                break;
+            default:
+                content = ResponseConstant.HELP;
+        }
+        return WxXmlOutMessage.TEXT().content(content)
+                .toUser(wxMessage.getFromUserName()).fromUser(wxMessage.getToUserName()).build();
     }
 }
 
