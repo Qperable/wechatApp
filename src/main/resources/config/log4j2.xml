@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration status="WARN"
+               packages="org.apache.logging.log4j.core.pattern">
+
+    <properties>
+        <!-- 文件输出格式 -->
+        <property name="PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} |-%-5level Thread-%T -| %msg%n</property>
+    </properties>
+
+    <appenders>
+        <Console name="CONSOLE" target="system_out">
+            <PatternLayout pattern="${PATTERN}"/>
+        </Console>
+
+        <!-- 主日志 -->
+        <RollingFile name="Bizlog" fileName="logs/Bizlog.log"
+                     filePattern="logs/Bizlog-$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
+            <PatternLayout pattern="${PATTERN}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="250 MB"/>
+            </Policies>
+        </RollingFile>
+
+        <!-- 将系统异常配日志输出到本地文件 -->
+        <!--<RollingFile name="SyserrLog"
+                     fileName="logs/sys-err.log"
+                     filePattern="logs/sys-err-$${date:yyyy-MM}/sys-err-%d{MM-dd-yyyy}-%i.log.gz">
+            <PatternLayout pattern="%msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="250 MB"/>
+            </Policies>
+        </RollingFile>-->
+
+        <!-- 将系业务异常日志输出到本地文件 -->
+        <!--<RollingFile name="BizerrLog"
+                     fileName="logs/biz-err.log"
+                     filePattern="logs/biz-err-$${date:yyyy-MM}/biz-err-%d{MM-dd-yyyy}-%i.log.gz">
+            <PatternLayout pattern="%msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="250 MB"/>
+            </Policies>
+        </RollingFile>-->
+
+    </appenders>
+
+    <loggers>
+        <root level="info">
+            <AppenderRef ref="Bizlog"/>
+            <AppenderRef ref="CONSOLE"/>
+        </root>
+    </loggers>
+
+</configuration>

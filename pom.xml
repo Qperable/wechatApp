@@ -42,16 +42,25 @@
             <version>1.1</version>
         </dependency>
 
+        <!-- 微信工具包依赖（暂未用到） -->
         <dependency>
             <groupId>com.github.binarywang</groupId>
             <artifactId>weixin-java-mp</artifactId>
             <version>3.8.0</version>
         </dependency>
 
+        <!-- 微信公众号框架依赖 -->
         <dependency>
             <groupId>com.soecode.wx-tools</groupId>
             <artifactId>wx-tools</artifactId>
             <version>2.1.4-RELEASE</version>
+        </dependency>
+
+        <!-- 爬虫依赖 -->
+        <dependency>
+            <groupId>edu.uci.ics</groupId>
+            <artifactId>crawler4j</artifactId>
+            <version>4.4.0</version>
         </dependency>
     </dependencies>
 
