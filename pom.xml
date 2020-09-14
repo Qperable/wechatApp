@@ -43,17 +43,23 @@
         </dependency>
 
         <!-- 微信工具包依赖（暂未用到） -->
-        <dependency>
+        <!--<dependency>
             <groupId>com.github.binarywang</groupId>
             <artifactId>weixin-java-mp</artifactId>
             <version>3.8.0</version>
-        </dependency>
+        </dependency>-->
 
         <!-- 微信公众号框架依赖 -->
         <dependency>
             <groupId>com.soecode.wx-tools</groupId>
             <artifactId>wx-tools</artifactId>
             <version>2.1.4-RELEASE</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-io</artifactId>
+                    <groupId>commons-io</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- 爬虫依赖 -->

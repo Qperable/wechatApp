@@ -4,10 +4,11 @@ import com.soecode.wxtools.api.IService;
 import com.soecode.wxtools.api.WxConsts;
 import com.soecode.wxtools.api.WxMessageRouter;
 import com.soecode.wxtools.api.WxService;
-import com.soecode.wxtools.bean.WxXmlMessage;
-import core.constants.MenuKey;
 import core.handler.HelpDocHandler;
+import core.handler.HotSongsHandler;
 import core.handler.NormalTextHandler;
+import core.matcher.HelpDocMatcher;
+import core.matcher.HotSongsMatcher;
 import core.matcher.NormalTextMatcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +38,8 @@ public class WechatRouterDealService {
         IService iService = new WxService();
         WxMessageRouter router = new WxMessageRouter(iService);
         router.rule().msgType(WxConsts.XML_MSG_TEXT).matcher(new NormalTextMatcher()).handler(new NormalTextHandler()).end()
-                .rule().event(WxConsts.EVT_CLICK).eventKey(MenuKey.HELP).handler(HelpDocHandler.getInstance()).end();
+                .rule().event(WxConsts.EVT_CLICK).matcher(new HotSongsMatcher()).handler(HotSongsHandler.getInstance()).next()
+                .rule().event(WxConsts.EVT_CLICK).matcher(new HelpDocMatcher()).handler(HelpDocHandler.getInstance()).end();
         return router;
     }
 }

@@ -11,22 +11,22 @@ import core.constants.ResponseConstant;
 import java.util.Map;
 
 /**
- * 功能描述：帮助菜单回复类
+ * 功能描述：热歌菜单回复类
  *
  * @author wuyachong
- * @date 2020/09/07
+ * @date 2020/09/11
  */
-public class HelpDocHandler implements WxMessageHandler {
+public class HotSongsHandler implements WxMessageHandler {
 
-    private static HelpDocHandler instance = null;
+    private static HotSongsHandler instance = null;
 
     private boolean isRun = false;
 
-    private HelpDocHandler(){}
+    private HotSongsHandler(){}
 
-    public static synchronized HelpDocHandler getInstance(){
+    public static synchronized HotSongsHandler getInstance(){
         if (instance == null) {
-            instance = new HelpDocHandler();
+            instance = new HotSongsHandler();
         }
         return instance;
     }
@@ -43,7 +43,7 @@ public class HelpDocHandler implements WxMessageHandler {
     @Override
     public WxXmlOutMessage handle(WxXmlMessage wxMessage, Map<String, Object> context, IService iService) throws WxErrorException {
         WxXmlOutMessage response = null;
-        if (MenuKey.HELP.equals(wxMessage.getEventKey())) {
+        if (MenuKey.HOT_SONG.equals(wxMessage.getEventKey())) {
             setRun(true);
             response = execute(wxMessage);
             setRun(false);
