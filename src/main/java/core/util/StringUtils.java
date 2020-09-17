@@ -14,9 +14,23 @@ public class StringUtils {
      */
     public static boolean isNotEmpty(String value) {
         if (value != null && value.trim().length() > 0) {
-            return false;
+            return true;
         }
-        return true;
+        return false;
+    }
+
+    /**
+     * 按顺序取String值不为空的那一个
+     * @param values
+     * @return
+     */
+    public static String trimNull(String... values) {
+        for (String value : values) {
+            if (isNotEmpty(value)) {
+                return value;
+            }
+        }
+        return "";
     }
 
     /**
