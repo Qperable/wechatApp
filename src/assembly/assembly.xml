@@ -18,18 +18,28 @@
 		</fileSet>
 
 		<fileSet>
+			<directory>src/main/resources/static</directory>
+			<outputDirectory>static</outputDirectory>
+			<includes>
+				<include>**/*</include>
+			</includes>
+		</fileSet>
+
+		<fileSet>
 			<directory>${project.build.directory}/classes/bin</directory>
 			<outputDirectory>.</outputDirectory>
 			<includes>
 				<include>*</include>
 			</includes>
 		</fileSet>
+
 		<fileSet>
 			<directory>${project.build.directory}</directory>
 			<outputDirectory>application</outputDirectory>
 			<includes>
 				<include>wechat-app-0.0.1-SNAPSHOT.jar</include>
 			</includes>
+
 		</fileSet>
 	</fileSets>
 

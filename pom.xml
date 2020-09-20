@@ -17,6 +17,7 @@
     <properties>
         <java.version>1.8</java.version>
         <dom4j.version>1.6.1</dom4j.version>
+        <annotation.version>1.3.2</annotation.version>
     </properties>
 
     <dependencies>
@@ -36,10 +37,31 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>${annotation.version}</version>
+        </dependency>
+
+        <!-- 解析xml报文 -->
         <dependency>
             <groupId>dom4j</groupId>
             <artifactId>dom4j</artifactId>
             <version>1.1</version>
+        </dependency>
+
+        <!-- 解析html报文 -->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.8.3</version>
         </dependency>
 
         <!-- 微信工具包依赖（暂未用到） -->
