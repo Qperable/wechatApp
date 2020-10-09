@@ -1,13 +1,9 @@
 package core.util;
 
 import core.enums.UrlEnum;
-import core.properties.CrawlerProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.io.*;
 import java.util.Map;
 
@@ -18,22 +14,18 @@ import java.util.Map;
  * @Date: 2020/9/19
  */
 
-@Component
 public class FileHandleUtils {
 
     private static Logger logger = LoggerFactory.getLogger(FileHandleUtils.class);
-
-    @Resource
-    private CrawlerProperties crawlerProperties;
 
     /**
      * 通过url获取文件名称
      * @param url
      * @return
      */
-    public String assembleTextName(String url) {
+    public static String assembleTextName(String local, String url) {
         String cnName = UrlEnum.getCnNameByUrl(url);
-        return crawlerProperties.getLocal() + cnName + DateUtils.getCurrentTimeYMDH() + ".txt";
+        return local + cnName + DateUtils.getCurrentTimeYMDH() + ".txt";
     }
 
     /**

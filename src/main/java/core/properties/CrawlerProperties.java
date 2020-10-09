@@ -1,9 +1,9 @@
 package core.properties;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.stereotype.Component;
 
 /**
  * 功能描述：爬虫工具配置类
@@ -14,10 +14,10 @@ import org.springframework.stereotype.Component;
 
 @Configuration
 @ConfigurationProperties(prefix = "crawler", ignoreUnknownFields = false)
-@PropertySource("classpath:config/util.properties")
-@Component
+@PropertySource(value = {"classpath:config/util.properties"}, encoding = "utf-8")
 public class CrawlerProperties {
 
+    @Value("${crawler.local}")
     private String local;
 
     public String getLocal() {

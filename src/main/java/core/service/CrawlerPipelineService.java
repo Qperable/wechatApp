@@ -2,11 +2,14 @@ package core.service;
 
 import core.bean.ContextParseBean;
 import core.enums.UrlEnum;
+import core.properties.CrawlerProperties;
 import core.util.ContextParseUtils;
 import core.util.FileHandleUtils;
 import core.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.stereotype.Service;
 import us.codecraft.webmagic.ResultItems;
 import us.codecraft.webmagic.Task;
 import us.codecraft.webmagic.pipeline.Pipeline;
@@ -24,13 +27,14 @@ import java.util.Map;
  * @Author: wuyachong
  * @Date: 2020/9/16
  */
-
+@Service
+@EnableConfigurationProperties(CrawlerProperties.class)
 public class CrawlerPipelineService implements Pipeline {
 
     private Logger logger = LoggerFactory.getLogger(CrawlerContextService.class);
 
     @Resource
-    private FileHandleUtils fileHandleUtils;
+    private CrawlerProperties crawlerProperties;
 
     @Override
     public void process(ResultItems resultItems, Task task) {
@@ -94,7 +98,7 @@ public class CrawlerPipelineService implements Pipeline {
             }
         }
         logger.info("获取到的歌单：" + songMap.toString());
-        FileHandleUtils.fileDownloadByMap(songMap, fileHandleUtils.assembleTextName(url));
+        FileHandleUtils.fileDownloadByMap(songMap, FileHandleUtils.assembleTextName(crawlerProperties.getLocal(), url));
     }
 
 }
