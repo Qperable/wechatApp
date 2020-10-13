@@ -1,17 +1,21 @@
 package core.menu;
 
-import core.constants.CrawlerUrlConstant;
-import core.constants.MenuKeyConstant;
 import com.soecode.wxtools.api.IService;
 import com.soecode.wxtools.api.WxConsts;
 import com.soecode.wxtools.api.WxService;
 import com.soecode.wxtools.bean.WxMenu;
 import com.soecode.wxtools.exception.WxErrorException;
+import core.config.CrawlerConfig;
+import core.constants.CrawlerUrlConstant;
+import core.constants.MenuKeyConstant;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,13 +30,22 @@ import java.util.List;
 @Order(value = 1)
 public class Menu implements ApplicationRunner {
 
+    private Logger logger = LoggerFactory.getLogger(Menu.class);
+
+    @Resource
+    private CrawlerConfig crawlerConfig;
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
+        initConfig();
         sendMenuMsg();
     }
 
+    private void initConfig() {
+        logger.info("初始化配置信息，配置文件地址：" + crawlerConfig);
+    }
 
-    private static void sendMenuMsg() {
+    private void sendMenuMsg() {
         IService iService = new WxService();
         WxMenu menu = new WxMenu();
         List<WxMenu.WxMenuButton> btnList = new ArrayList<>();

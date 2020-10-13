@@ -1,10 +1,11 @@
 package core.service;
 
 import core.interfaces.CrawlerUseService;
-import core.properties.CrawlerProperties;
+import core.config.CrawlerConfig;
 import core.util.FileHandleUtils;
 import core.util.StringUtils;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import us.codecraft.webmagic.Spider;
 
@@ -17,12 +18,11 @@ import javax.annotation.Resource;
  * @Date: 2020/9/11
  */
 
-@Service
-@EnableConfigurationProperties(CrawlerProperties.class)
+@Component
 public class CrawlerUseServiceImpl implements CrawlerUseService {
 
     @Resource
-    private CrawlerProperties crawlerProperties;
+    private CrawlerConfig crawlerConfig;
 
     /**
      * 咪咕音乐爬取
@@ -31,7 +31,7 @@ public class CrawlerUseServiceImpl implements CrawlerUseService {
      */
     @Override
     public String crawMiGuMusic(String url) {
-        String fileName = FileHandleUtils.assembleTextName(crawlerProperties.getLocal(), url);
+        String fileName = FileHandleUtils.assembleTextName(crawlerConfig.getLocal(), url);
         String context = FileHandleUtils.fileReadByMap(fileName);
 
         if (StringUtils.isEmpty(context)) {
