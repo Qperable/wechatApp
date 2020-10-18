@@ -43,6 +43,7 @@ public class Menu implements ApplicationRunner {
 
     private void initConfig() {
         logger.info("初始化配置信息，配置文件地址：" + crawlerConfig);
+        crawlerConfig.setStaticLocal(crawlerConfig.getLocal());
     }
 
     private void sendMenuMsg() {

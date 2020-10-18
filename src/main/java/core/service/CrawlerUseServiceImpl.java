@@ -1,15 +1,11 @@
 package core.service;
 
+import core.config.ConfigIniter;
 import core.interfaces.CrawlerUseService;
-import core.config.CrawlerConfig;
 import core.util.FileHandleUtils;
 import core.util.StringUtils;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import us.codecraft.webmagic.Spider;
-
-import javax.annotation.Resource;
 
 /**
  * 功能描述：爬虫使用工具类
@@ -21,8 +17,8 @@ import javax.annotation.Resource;
 @Component
 public class CrawlerUseServiceImpl implements CrawlerUseService {
 
-    @Resource
-    private CrawlerConfig crawlerConfig;
+    /*@Resource
+    private CrawlerConfig crawlerConfig;*/
 
     /**
      * 咪咕音乐爬取
@@ -31,7 +27,7 @@ public class CrawlerUseServiceImpl implements CrawlerUseService {
      */
     @Override
     public String crawMiGuMusic(String url) {
-        String fileName = FileHandleUtils.assembleTextName(crawlerConfig.getLocal(), url);
+        String fileName = FileHandleUtils.assembleTextName(ConfigIniter.initCrawler().getStaticLocal(), url);
         String context = FileHandleUtils.fileReadByMap(fileName);
 
         if (StringUtils.isEmpty(context)) {
