@@ -9,6 +9,7 @@ import core.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import us.codecraft.webmagic.ResultItems;
 import us.codecraft.webmagic.Task;
 import us.codecraft.webmagic.pipeline.Pipeline;
@@ -25,7 +26,7 @@ import java.util.Map;
  * @Author: wuyachong
  * @Date: 2020/9/16
  */
-@Component
+@Service
 public class CrawlerPipelineService implements Pipeline {
 
     private Logger logger = LoggerFactory.getLogger(CrawlerContextService.class);
@@ -43,7 +44,7 @@ public class CrawlerPipelineService implements Pipeline {
         } else {
             // 反射调用url对应的爬虫方法
             try {
-                Class<?> clazz = Class.forName("CrawlerPipelineService");
+                Class<?> clazz = Class.forName("core.service.CrawlerPipelineService");
                 Method method = clazz.getDeclaredMethod(methodName, ResultItems.class);
                 method.invoke(clazz.newInstance(), resultItems);
             } catch (Exception e) {

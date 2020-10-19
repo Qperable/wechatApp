@@ -5,6 +5,7 @@ import core.interfaces.CrawlerUseService;
 import core.util.FileHandleUtils;
 import core.util.StringUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import us.codecraft.webmagic.Spider;
 
 /**
@@ -14,7 +15,7 @@ import us.codecraft.webmagic.Spider;
  * @Date: 2020/9/11
  */
 
-@Component
+@Service
 public class CrawlerUseServiceImpl implements CrawlerUseService {
 
     /*@Resource

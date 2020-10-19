@@ -24,7 +24,7 @@ public class CrawlerConfig {
      * 配置文件读取后该配置类在某些地方由于不明原因不能直接通过@resource获取参数值
      * 只能先暂时另添一个静态变量，在初始化的时候放进去
      */
-    private String staticLocal;
+    private static String staticLocal;
 
     public String getLocal() {
         return local;
@@ -39,7 +39,7 @@ public class CrawlerConfig {
     }
 
     public void setStaticLocal(String staticLocal) {
-        this.staticLocal = staticLocal;
+        CrawlerConfig.staticLocal = staticLocal;
     }
 
     @Override
