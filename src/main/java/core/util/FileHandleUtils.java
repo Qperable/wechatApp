@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.net.URL;
 import java.util.Map;
 
 /**
@@ -25,7 +26,11 @@ public class FileHandleUtils {
      */
     public static String assembleTextName(String local, String url) {
         String cnName = UrlEnum.getCnNameByUrl(url);
-        return local + cnName + DateUtils.getCurrentTimeYMDH() + ".txt";
+        // 获取的是该用户目录资源存放地址 如：file:/data/workspace/wechat-1.0/config/
+        URL absoluteResource = Thread.currentThread().getContextClassLoader().getResource("");
+        assert absoluteResource != null;
+        String absWay = absoluteResource.getPath();
+        return  absWay + local + cnName + DateUtils.getCurrentTimeYMDH() + ".txt";
     }
 
     /**

@@ -12,7 +12,10 @@ import core.constants.CrawlerUrlConstant;
 
 public enum UrlEnum {
 
-    MI_GU_TOP_NEW_SONG(CrawlerUrlConstant.MI_GU_TOP_NEW_SONG_URL, CrawlerMethodConstant.MI_GU_TOP_NEW_SONG_METHOD, "咪咕音乐尖叫新歌榜");
+    /**
+     * 咪咕音乐尖叫新歌榜
+     */
+    MI_GU_TOP_NEW_SONG(CrawlerUrlConstant.MI_GU_TOP_NEW_SONG_URL, CrawlerMethodConstant.MI_GU_TOP_NEW_SONG_METHOD, "MiGuTopNewSong");
 
     public static String getCnNameByUrl(String url) {
         for (UrlEnum value : values()) {

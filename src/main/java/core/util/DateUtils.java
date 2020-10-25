@@ -18,7 +18,7 @@ public class DateUtils {
      * @return
      */
     public static String getCurrentTimeYMDH() {
-        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd-HH");
+        SimpleDateFormat formatter= new SimpleDateFormat("yyyyMMddHH");
         Date date = new Date(System.currentTimeMillis());
         return formatter.format(date);
     }
