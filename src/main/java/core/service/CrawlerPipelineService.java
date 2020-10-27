@@ -58,18 +58,22 @@ public class CrawlerPipelineService implements Pipeline {
      * @param resultItems
      */
     private void crawMiGuNewTopSong(ResultItems resultItems) {
+        logger.info("开始下载咪咕尖叫新歌榜内容...");
         String url = resultItems.getRequest().getUrl();
         Map<String, String> songMap = new HashMap<>();
+        String value;
+        String[] entryContext;
+        List<String> songList;
+        List<String> artistList;
+        Map<String, String> classMap;
+        String href;
+        String context;
+        ContextParseBean contextParseBean;
         for (Map.Entry<String, Object> entry : resultItems.getAll().entrySet()) {
-            logger.info(entry.getKey() + ":\t" + entry.getValue());
-            String value = entry.getValue().toString();
-            String[] entryContext = value.substring(1, value.length()-1).split(", ");
-            List<String> songList = new ArrayList<>();
-            List<String> artistList = new ArrayList<>();
-            Map<String, String> classMap;
-            String href;
-            String context;
-            ContextParseBean contextParseBean;
+            value = entry.getValue().toString();
+            entryContext = value.substring(1, value.length()-1).split(", ");
+            songList = new ArrayList<>();
+            artistList = new ArrayList<>();
             for (String str : entryContext) {
                 contextParseBean = ContextParseUtils.transMiGuContextTobean(str);
                 classMap = contextParseBean.getClassMap();
@@ -96,7 +100,9 @@ public class CrawlerPipelineService implements Pipeline {
             }
         }
         logger.info("获取到的歌单：" + songMap.toString());
-        FileHandleUtils.fileDownloadByMap(songMap, FileHandleUtils.assembleTextName(ConfigIniter.initCrawler().getStaticLocal(), url));
+        FileHandleUtils.fileDownloadByMap(songMap,
+                FileHandleUtils.assembleTextName(ConfigIniter.initCrawler().getStaticLocal(),
+                        url));
     }
 
 }

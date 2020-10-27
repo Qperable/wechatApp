@@ -1,12 +1,14 @@
 package core.handler;
 
-import core.constants.CrawlerUrlConstant;
-import core.service.CrawlerUseServiceImpl;
 import com.soecode.wxtools.api.IService;
 import com.soecode.wxtools.api.WxMessageHandler;
 import com.soecode.wxtools.bean.WxXmlMessage;
 import com.soecode.wxtools.bean.WxXmlOutMessage;
 import com.soecode.wxtools.exception.WxErrorException;
+import core.constants.CrawlerUrlConstant;
+import core.service.CrawlerUseServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
@@ -21,6 +23,8 @@ public class HotSongsHandler implements WxMessageHandler {
     private static HotSongsHandler instance = null;
 
     private boolean isRun = false;
+
+    private Logger logger = LoggerFactory.getLogger(HotSongsHandler.class);
 
     private HotSongsHandler(){}
 
@@ -48,6 +52,7 @@ public class HotSongsHandler implements WxMessageHandler {
             response = execute(wxMessage);
             setRun(false);
         }
+        logger.info("咪咕新歌榜返回给用户的信息：" + response);
         return response;
     }
 

@@ -4,7 +4,8 @@ import core.config.ConfigIniter;
 import core.interfaces.CrawlerUseService;
 import core.util.FileHandleUtils;
 import core.util.StringUtils;
-import org.springframework.stereotype.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import us.codecraft.webmagic.Spider;
 
@@ -18,6 +19,8 @@ import us.codecraft.webmagic.Spider;
 @Service
 public class CrawlerUseServiceImpl implements CrawlerUseService {
 
+    private static Logger logger = LoggerFactory.getLogger(CrawlerUseServiceImpl.class);
+
     /*@Resource
     private CrawlerConfig crawlerConfig;*/
 
@@ -29,10 +32,12 @@ public class CrawlerUseServiceImpl implements CrawlerUseService {
     @Override
     public String crawMiGuMusic(String url) {
         String fileName = FileHandleUtils.assembleTextName(ConfigIniter.initCrawler().getStaticLocal(), url);
+        logger.info("开始读取已有文件内容...");
         String context = FileHandleUtils.fileReadByMap(fileName);
 
         if (StringUtils.isEmpty(context)) {
             // 如果文件不存在，则从链接爬取内容下载到本地
+            logger.info("文件不存在，网络下载中...");
             Spider.create(new CrawlerContextService()).addUrl(url)
                     .addPipeline(new CrawlerPipelineService()).thread(1).run();
             context = FileHandleUtils.fileReadByMap(fileName);
