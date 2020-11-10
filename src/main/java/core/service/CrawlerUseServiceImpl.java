@@ -1,13 +1,14 @@
 package core.service;
 
-import core.config.ConfigIniter;
+import core.bean.SongsBean;
 import core.interfaces.CrawlerUseService;
-import core.util.FileHandleUtils;
-import core.util.StringUtils;
+import core.repostory.SongsRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import us.codecraft.webmagic.Spider;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 功能描述：爬虫使用工具类
@@ -24,6 +25,9 @@ public class CrawlerUseServiceImpl implements CrawlerUseService {
     /*@Resource
     private CrawlerConfig crawlerConfig;*/
 
+    @Resource
+    private SongsRepository songsRepository;
+
     /**
      * 咪咕音乐爬取
      * 优先从本地读取数据，如本地数据不存在，则通过url爬取
@@ -31,22 +35,25 @@ public class CrawlerUseServiceImpl implements CrawlerUseService {
      */
     @Override
     public String crawMiGuMusic(String url) {
-        String fileName = FileHandleUtils.assembleTextName(ConfigIniter.initCrawler().getStaticLocal(), url);
-        logger.info("开始读取已有文件内容...");
-        String context = FileHandleUtils.fileReadByMap(fileName);
+        logger.info("开始读取咪咕音乐热歌文件内容...");
+        List<SongsBean> songsBeanList = songsRepository.selectSingsByUrl(url);
 
-        if (StringUtils.isEmpty(context)) {
-            // 如果文件不存在，则从链接爬取内容下载到本地
-            logger.info("文件不存在，网络下载中...");
-            Spider.create(new CrawlerContextService()).addUrl(url)
-                    .addPipeline(new CrawlerPipelineService()).thread(1).run();
-            context = FileHandleUtils.fileReadByMap(fileName);
-            if (StringUtils.isEmpty(context)) {
-                return "该功能可能存在某种异常，请稍后再试";
-            }
+        if (songsBeanList == null || songsBeanList.isEmpty()) {
+            logger.error("咪咕音乐热歌榜功能可能存在某种异常，请稍后再试");
         }
 
-        return context;
+        StringBuilder context = new StringBuilder("");
+        assert songsBeanList != null;
+        for (SongsBean songsBean : songsBeanList) {
+            context.append("歌手名：")
+                    .append(songsBean.getSingerName())
+                    .append("\n")
+                    .append("歌曲名：")
+                    .append(songsBean.getSongName())
+                    .append("\n");
+        }
+
+        return context.toString();
     }
 
 }
