@@ -1,4 +1,4 @@
-package core.repostory;
+package core.repository;
 
 import core.bean.SongsBean;
 import core.config.ConfigIniter;
@@ -8,7 +8,7 @@ import core.util.FileHandleUtils;
 import core.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import us.codecraft.webmagic.Spider;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import java.util.List;
  * @Date: 2020/10/28
  */
 
-@Component
+@Service
 public class SongsRepository {
 
     private static Logger logger = LoggerFactory.getLogger(SongsRepository.class);

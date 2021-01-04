@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Jquery引用 -->
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.5.1/jquery.js"></script>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title>测试页面</title>
+</head>
+<body>
+    <!-- 当前接口下拉框 -->
+    <div class="btn-group">
+        <button id="testFunction" type="button" class="btn btn-primary" onclick="testAction()">请选择待测试接口名</button>
+        <button id="showAllFunctions" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="caret"></span>
+            <span class="sr-only">Toggle Dropdown</span>
+        </button>
+        <ul id="interfaceList" class="dropdown-menu">
+        </ul>
+    </div>
+    <textarea id="requestBody" class="form-control" rows="3" text="接口参数JSON"></textarea>
+</body>
+<script>
+    $("#showAllFunctions").click(function () {
+        $.ajax({
+            url:"/test/queryAllInterfaceMethodName",
+            type:"GET",
+            success:function(result){
+                $("#interfaceList li").remove();
+                for (var interfaceName of result) {
+                    console.log("接口名为：" + interfaceName);
+                    $("#interfaceList").append(
+                        '<li><a href="#" onclick=changeFunction(\'' + interfaceName + '\')>' + interfaceName + '</a></li>' +
+                        '<li role="separator" class="divider"></li>'
+                    )
+                }
+            }
+        });
+    });
+
+    function changeFunction(interfaceName) {
+        console.log("点击按钮：" + interfaceName)
+        $("#testFunction").text(interfaceName);
+    }
+
+    function testAction() {
+        var interfaceName = $('#testFunction').text();
+        var requestBody = $('#requestBody').val();
+        console.log("开始执行测试，接口名为：" + interfaceName +
+                    "接口入参为：" + requestBody);
+        $.ajax({
+            url:"/test/testAction",
+            type:"post",
+            data:{
+                "interfaceName":interfaceName,
+                "requestBody":requestBody
+            },
+            success:function(){
+                alert("测试完成，请查看测试结果")
+            },
+            error:function () {
+                alert("测试失败，请查看日志分析失败原因")
+            }
+        });
+    }
+</script>
+</html>

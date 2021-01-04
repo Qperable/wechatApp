@@ -2,7 +2,7 @@ package core.service;
 
 import core.bean.SongsBean;
 import core.interfaces.CrawlerUseService;
-import core.repostory.SongsRepository;
+import core.repository.SongsRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -32,6 +32,8 @@ public class CrawlerUseServiceImpl implements CrawlerUseService {
      * 咪咕音乐爬取
      * 优先从本地读取数据，如本地数据不存在，则通过url爬取
      * @param url
+     *
+     * 测试用例：{"url":"https://music.migu.cn/v3/music/top/jianjiao_newsong"}
      */
     @Override
     public String crawMiGuMusic(String url) {
