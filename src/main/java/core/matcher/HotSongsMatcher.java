@@ -3,6 +3,7 @@ package core.matcher;
 import core.constants.CrawlerUrlConstant;
 import com.soecode.wxtools.api.WxMessageMatcher;
 import com.soecode.wxtools.bean.WxXmlMessage;
+import org.springframework.stereotype.Component;
 
 /**
  * 功能描述：响应热歌栏，判断是否回复
@@ -10,7 +11,7 @@ import com.soecode.wxtools.bean.WxXmlMessage;
  * @Author: wuyachong
  * @Date: 2020/9/11
  */
-
+@Component
 public class HotSongsMatcher implements WxMessageMatcher {
 
     @Override

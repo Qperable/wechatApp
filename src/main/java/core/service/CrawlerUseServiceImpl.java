@@ -22,9 +22,6 @@ public class CrawlerUseServiceImpl implements CrawlerUseService {
 
     private static Logger logger = LoggerFactory.getLogger(CrawlerUseServiceImpl.class);
 
-    /*@Resource
-    private CrawlerConfig crawlerConfig;*/
-
     @Resource
     private SongsRepository songsRepository;
 

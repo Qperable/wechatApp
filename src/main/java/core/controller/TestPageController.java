@@ -1,6 +1,7 @@
 package core.controller;
 
 import com.alibaba.fastjson.JSON;
+import core.util.BeanUtils;
 import core.util.PackageFileNameUtils;
 import core.util.StringUtils;
 import org.slf4j.Logger;
@@ -61,7 +62,7 @@ public class TestPageController {
         String methodName = interfaceName.substring(index+1);
         try {
             Class<?> faceClazz = Class.forName(PackageFileNameUtils.PACKAGE_PATH + "." + faceName);
-            Object instance = faceClazz.newInstance();
+            Object instance = BeanUtils.getBean(faceClazz);
             // 获取入参数组
             Object[] paramCollection = parameter.values().toArray();
 
@@ -77,7 +78,7 @@ public class TestPageController {
             // 执行待测试方法
             Method method = faceClazz.getDeclaredMethod(methodName, paramArr);
             method.invoke(instance, paramCollection);
-        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
+        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }
     }

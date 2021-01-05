@@ -2,6 +2,7 @@ package core.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.processor.PageProcessor;
@@ -12,7 +13,7 @@ import us.codecraft.webmagic.processor.PageProcessor;
  * @Author: wuyachong
  * @Date: 2020/9/11
  */
-
+@Service
 public class CrawlerContextService implements PageProcessor {
 
     private Logger logger = LoggerFactory.getLogger(CrawlerContextService.class);

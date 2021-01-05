@@ -4,6 +4,7 @@ import core.enums.TypeEnum;
 import com.soecode.wxtools.api.WxMessageMatcher;
 import com.soecode.wxtools.bean.WxXmlMessage;
 import com.soecode.wxtools.util.StringUtils;
+import org.springframework.stereotype.Component;
 
 /**
  * 功能描述：响应消息，判断是否回复
@@ -11,6 +12,7 @@ import com.soecode.wxtools.util.StringUtils;
  * @author wuyachong
  * @date 2020/07/09
  */
+@Component
 public class NormalTextMatcher implements WxMessageMatcher {
 
     @Override

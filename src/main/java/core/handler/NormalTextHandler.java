@@ -7,6 +7,7 @@ import com.soecode.wxtools.bean.WxXmlMessage;
 import com.soecode.wxtools.bean.WxXmlOutMessage;
 import com.soecode.wxtools.exception.WxErrorException;
 import core.constants.RequestConstant;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
@@ -16,6 +17,7 @@ import java.util.Map;
  * @author wuyachong
  * @date 2020/09/07
  */
+@Component
 public class NormalTextHandler implements WxMessageHandler {
 
     private boolean isRun = false;

@@ -1,19 +1,20 @@
 package core.service;
 
 import core.bean.ContextParseBean;
-import core.config.ConfigIniter;
+import core.config.CrawlerConfig;
 import core.enums.UrlEnum;
+import core.util.BeanUtils;
 import core.util.ContextParseUtils;
 import core.util.FileHandleUtils;
 import core.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import us.codecraft.webmagic.ResultItems;
 import us.codecraft.webmagic.Task;
 import us.codecraft.webmagic.pipeline.Pipeline;
 
+import javax.annotation.Resource;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,8 +32,8 @@ public class CrawlerPipelineService implements Pipeline {
 
     private Logger logger = LoggerFactory.getLogger(CrawlerContextService.class);
 
-    /*@Resource
-    private CrawlerConfig crawlerConfig;*/
+    @Resource
+    private CrawlerConfig crawlerConfig;
 
     @Override
     public void process(ResultItems resultItems, Task task) {
@@ -46,7 +47,7 @@ public class CrawlerPipelineService implements Pipeline {
             try {
                 Class<?> clazz = Class.forName("core.service.CrawlerPipelineService");
                 Method method = clazz.getDeclaredMethod(methodName, ResultItems.class);
-                method.invoke(clazz.newInstance(), resultItems);
+                method.invoke(BeanUtils.getBean(clazz), resultItems);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -101,7 +102,7 @@ public class CrawlerPipelineService implements Pipeline {
         }
         logger.info("获取到的歌单：" + songMap.toString());
         FileHandleUtils.fileDownloadByMap(songMap,
-                FileHandleUtils.assembleTextName(ConfigIniter.initCrawler().getStaticLocal(),
+                FileHandleUtils.assembleTextName(crawlerConfig.getLocal(),
                         url));
     }
 

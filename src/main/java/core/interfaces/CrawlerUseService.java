@@ -1,5 +1,7 @@
 package core.interfaces;
 
+import org.springframework.stereotype.Service;
+
 /**
  * 功能描述：
  *
@@ -7,6 +9,7 @@ package core.interfaces;
  * @Date: 2020/9/19
  */
 
+@Service
 public interface CrawlerUseService {
 
     /**

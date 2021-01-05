@@ -6,10 +6,12 @@ import com.soecode.wxtools.bean.WxXmlMessage;
 import com.soecode.wxtools.bean.WxXmlOutMessage;
 import com.soecode.wxtools.exception.WxErrorException;
 import core.constants.CrawlerUrlConstant;
-import core.service.CrawlerUseServiceImpl;
+import core.interfaces.CrawlerUseService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.Map;
 
 /**
@@ -18,22 +20,17 @@ import java.util.Map;
  * @author wuyachong
  * @date 2020/09/11
  */
+@Component
 public class HotSongsHandler implements WxMessageHandler {
+
+    @Resource
+    private CrawlerUseService crawlerUseService;
 
     private static HotSongsHandler instance = null;
 
     private boolean isRun = false;
 
     private Logger logger = LoggerFactory.getLogger(HotSongsHandler.class);
-
-    private HotSongsHandler(){}
-
-    public static synchronized HotSongsHandler getInstance(){
-        if (instance == null) {
-            instance = new HotSongsHandler();
-        }
-        return instance;
-    }
 
     private synchronized  boolean getIsRun() {
         return isRun;
@@ -57,7 +54,6 @@ public class HotSongsHandler implements WxMessageHandler {
     }
 
     private WxXmlOutMessage execute(WxXmlMessage wxMessage) {
-        CrawlerUseServiceImpl crawlerUseService = new CrawlerUseServiceImpl();
         String context = crawlerUseService.crawMiGuMusic(wxMessage.getEventKey());
 
         return WxXmlOutMessage.TEXT().content(context)

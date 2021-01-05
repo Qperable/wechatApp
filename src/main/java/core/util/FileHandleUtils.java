@@ -97,7 +97,7 @@ public class FileHandleUtils {
         String fileContext = "";
         try {
             inputStreamReader  = new InputStreamReader(new FileInputStream(mapFile), StandardCharsets.UTF_8);
-            char[] context = new char[1024];
+            char[] context = new char[2048];
             int read = inputStreamReader.read(context);
             fileContext = new String(context, 0, read);
             logger.info("本地文件数据获取：" + fileContext);

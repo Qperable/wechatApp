@@ -3,6 +3,7 @@ package core.matcher;
 import com.soecode.wxtools.api.WxMessageMatcher;
 import com.soecode.wxtools.bean.WxXmlMessage;
 import core.constants.MenuKeyConstant;
+import org.springframework.stereotype.Component;
 
 /**
  * 功能描述：响应帮助栏，判断是否回复
@@ -10,7 +11,7 @@ import core.constants.MenuKeyConstant;
  * @Author: wuyachong
  * @Date: 2020/9/11
  */
-
+@Component
 public class HelpDocMatcher implements WxMessageMatcher {
 
     @Override

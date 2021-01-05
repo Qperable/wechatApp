@@ -38,12 +38,14 @@ public class Menu implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         initConfig();
-        sendMenuMsg();
+        if (crawlerConfig.isiSwitch()) {
+            sendMenuMsg();
+        }
     }
 
     private void initConfig() {
+        logger.info("菜单状态：" + crawlerConfig.isiSwitch());
         logger.info("初始化配置信息，配置文件地址：" + crawlerConfig);
-        crawlerConfig.setStaticLocal(crawlerConfig.getLocal());
     }
 
     private void sendMenuMsg() {
