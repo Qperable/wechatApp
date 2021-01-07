@@ -30,7 +30,7 @@ public class TestPageController {
 
     private static Logger logger = LoggerFactory.getLogger(TestPageController.class);
 
-    @RequestMapping("/")
+    @RequestMapping("/test")
     public String index() {
         return "index";
     }
