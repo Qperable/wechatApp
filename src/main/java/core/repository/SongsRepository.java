@@ -44,7 +44,7 @@ public class SongsRepository {
             // 如果文件不存在，则从链接爬取内容下载到本地
             logger.info("文件不存在，网络下载中...");
             Spider.create(crawlerContextService).addUrl(url)
-                    .addPipeline(crawlerPipelineService).thread(1).run();
+                    .addPipeline(crawlerPipelineService);
             context = FileHandleUtils.fileReadByMap(fileName);
             if (StringUtils.isEmpty(context)) {
                 return null;

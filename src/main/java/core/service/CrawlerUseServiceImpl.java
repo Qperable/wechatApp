@@ -3,6 +3,7 @@ package core.service;
 import core.bean.SongsBean;
 import core.interfaces.CrawlerUseService;
 import core.repository.SongsRepository;
+import core.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -43,16 +44,25 @@ public class CrawlerUseServiceImpl implements CrawlerUseService {
 
         StringBuilder context = new StringBuilder("");
         assert songsBeanList != null;
+        String songsContext = "";
+        int contextLength;
         for (SongsBean songsBean : songsBeanList) {
+            // 如果加上后超过2047个字符，则取上一段文本内容
+            songsContext = context.toString();
             context.append("歌手名：")
                     .append(songsBean.getSingerName())
                     .append("\n")
                     .append("歌曲名：")
                     .append(songsBean.getSongName())
                     .append("\n");
+            contextLength = StringUtils.getByteSize(context.toString());
+            // 微信文本内容最大长度为2048
+            if (contextLength > 2047) {
+                break;
+            }
         }
 
-        return context.toString();
+        return songsContext;
     }
 
 }

@@ -1,5 +1,8 @@
 package core.util;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+
 /**
  * String相关工具类
  * @author wuyachong
@@ -53,5 +56,20 @@ public class StringUtils {
         }
 
         return value;
+    }
+
+    /**
+     * 计算采用utf-8编码方式时字符串所占字节数
+     *
+     * @param content
+     * @return
+     */
+    public static int getByteSize(String content) {
+        int size = 0;
+        if (null != content) {
+            // 汉字采用utf-8编码时占3个字节
+            size = content.getBytes(StandardCharsets.UTF_8).length;
+        }
+        return size;
     }
 }

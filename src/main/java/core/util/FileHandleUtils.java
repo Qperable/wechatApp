@@ -53,6 +53,7 @@ public class FileHandleUtils {
         File fileRes = new File(fileName.substring(0, fileName.lastIndexOf("/")));
         OutputStreamWriter outputStreamWriter = null;
         if (mapFile.exists()) {
+            logger.info("文件已存在，无需下载");
             return;
         } else if (!fileRes.exists()) {
             logger.error("该文件路径不存在：" + fileRes.getName());

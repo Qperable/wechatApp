@@ -104,6 +104,7 @@ public class CrawlerPipelineService implements Pipeline {
         FileHandleUtils.fileDownloadByMap(songMap,
                 FileHandleUtils.assembleTextName(crawlerConfig.getLocal(),
                         url));
+        logger.info("歌单本地下载完成");
     }
 
 }
