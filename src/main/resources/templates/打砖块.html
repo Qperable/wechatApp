@@ -20,9 +20,9 @@
     <title>Document</title>
 </head>
 
-<body>
-    <div class="background">
-        <div class="block"></div>
+<body onload="init()">
+    <div id="testNode" class="background">
+        <!--<div class="block"></div>-->
         <div class="ball"></div>
         <div class="broad"></div>
     </div>
@@ -43,11 +43,11 @@
     }
 
     .block {
-        position: absolute;
-        width: 300px;
-        height: 150px;
-        bottom: 250px;
-        left: 100px;
+        position: fixed;
+        width: 30px;
+        height: 15px;
+        bottom: 100px;
+        left: 50px;
         background-color: sienna;
     }
 
@@ -92,6 +92,18 @@
     var xChange = -1;
     var yChange = 1;
 
+    function init() {
+        for (let i = 0; i < 10; i++) {
+            var blockNode = document.createElement("div");
+            blockNode.className = "block";
+            blockNode.id = "block" + i;
+            let leftPx = 20+50*i;
+            console.log(leftPx);
+            blockNode.style.left = leftPx + "px";
+            document.getElementsByClassName("background")[0].appendChild(blockNode);
+        }
+    }
+
     document.onmousemove = function (mouthPosition) {
         borderX = mouthPosition.clientX - borderWidth / 2;
         $(".broad").css("left", borderX);
@@ -120,7 +132,7 @@
             // 碰触到板改变方向
             touchBroad();
             // 碰触到方块改变方向
-            touchBlock(windowWidth - 50, windowHeight - 100);
+            touchBlock(50, 100);
         }, 1)
     }
 
@@ -147,19 +159,25 @@
     /** 球碰触到方块 */
     function touchBlock(xAixs,yAxis) {
         // 碰撞上方
-        if(((ballY - ballWidth) == (yAxis + blockHeight)) && xAixs <= ballX && ballX <= (xAixs + blockWidth)) {
+        if(((ballY + ballWidth) == (yAxis + blockHeight)) && xAixs <= ballX && ballX <= (xAixs + blockWidth)) {
+            console.log("碰撞上方，坐标：（" + ballX + ", " + ballY + ")");
             yChange = -yChange;
             // 碰撞下方
         } else if (((ballY + ballWidth) == (yAxis)) && xAixs <= ballX && ballX <= (xAixs + blockWidth)) {
             yChange = -yChange;
+            console.log("碰撞上方，坐标：（" + ballX + ", " + ballY + ")");
             // 碰撞左方
-        } else if (((ballX - ballWidth) == (xAxis)) && yAixs <= ballY && ballY <= (yAixs + blockHeight)) {
+        } else if (((ballX + ballWidth) == (xAixs)) && yAxis <= ballY && ballY <= (yAxis + blockHeight)) {
             xChange = -xChange;
+            console.log("碰撞左方，坐标：（" + ballX + ", " + ballY + ")");
              // 碰撞右方
-        } else if (((ballX + ballWidth) == (xAxis + blockWidth)) && yAixs <= ballY && ballY <= (yAixs + blockHeight)) {
-            xchange = -xChange;
-            // 斜向右上
-        } 
+        } else if (((ballX - ballWidth) == (xAixs + blockWidth)) && yAxis <= ballY && ballY <= (yAxis + blockHeight)) {
+            xChange = -xChange;
+            console.log("碰撞右方，坐标：（" + ballX + ", " + ballY + ")");
+            // 碰撞左下角
+        } else if ((ballX + ballWidth) > xAixs) {
+
+        }
     }
 </script>
 
