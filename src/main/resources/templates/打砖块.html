@@ -46,8 +46,6 @@
         position: fixed;
         width: 30px;
         height: 15px;
-        bottom: 100px;
-        left: 50px;
         background-color: sienna;
     }
 
@@ -77,8 +75,8 @@
     // 球办径
     var ballWidth = 5;
     // 方块大小
-    var blockWidth = 300;
-    var blockHeight = 150;
+    var blockWidth = 30;
+    var blockHeight = 15;
     // 板坐标
     var borderX;
     var borderY = 0;
@@ -93,32 +91,28 @@
     var yChange = 1;
 
     function init() {
-        for (let i = 0; i < 10; i++) {
-            var blockNode = document.createElement("div");
-            blockNode.className = "block";
-            blockNode.id = "block" + i;
-            let leftPx = 20+50*i;
-            console.log(leftPx);
-            blockNode.style.left = leftPx + "px";
-            document.getElementsByClassName("background")[0].appendChild(blockNode);
-        }
+        initBlock();
+    }
+
+    function initBlock() {
+        hartBlock();
     }
 
     document.onmousemove = function (mouthPosition) {
         borderX = mouthPosition.clientX - borderWidth / 2;
         $(".broad").css("left", borderX);
-        if (ballY == 15) {
+        if (ballY === 15) {
             ballX = mouthPosition.clientX - ballWidth;
             $(".ball").css({ "left": ballX, "bottom": ballY })
         }
-    }
+    };
 
     document.onmousedown = function () {
-        if (ballY == 15) {
-            console.log("开始")
+        if (ballY === 15) {
+            console.log("开始");
             moveball();
         }
-    }
+    };
 
     function moveball() {
         var index;
@@ -132,15 +126,18 @@
             // 碰触到板改变方向
             touchBroad();
             // 碰触到方块改变方向
-            touchBlock(50, 100);
+            var blocks = document.getElementsByClassName("block");
+            for (var block of blocks) {
+                touchBlock(block);
+            }
         }, 1)
     }
 
     /** 球碰触到边界 */
     function changeWay() {
-        if (ballX == windowWidth - ballWidth || ballX == ballWidth) {
+        if (ballX === windowWidth - ballWidth || ballX === ballWidth) {
             xChange = -xChange;
-        } else if (ballY == windowHeight - ballWidth) {
+        } else if (ballY === windowHeight - ballWidth) {
             yChange = -yChange;
         } else if (ballY < ballWidth - ballWidth) {
             // 球没接到
@@ -151,32 +148,83 @@
 
     /** 球碰触到板 */
     function touchBroad() {
-        if(((ballY - ballWidth) == (borderY + borderHeight)) && borderX <= ballX && ballX <= (borderX + borderWidth)) {
+        if(((ballY - ballWidth) === (borderY + borderHeight)) && borderX <= ballX && ballX <= (borderX + borderWidth)) {
             yChange = -yChange;
         }
     }
 
     /** 球碰触到方块 */
-    function touchBlock(xAixs,yAxis) {
+    function touchBlock(block) {
+        xAixs = parseInt(block.style.left);
+        yAxis = parseInt(block.style.bottom);
+        var beRemove = false;
         // 碰撞上方
-        if(((ballY + ballWidth) == (yAxis + blockHeight)) && xAixs <= ballX && ballX <= (xAixs + blockWidth)) {
+        if(((ballY + ballWidth) === (yAxis + blockHeight)) && xAixs <= ballX && ballX <= (xAixs + blockWidth)) {
             console.log("碰撞上方，坐标：（" + ballX + ", " + ballY + ")");
             yChange = -yChange;
+            beRemove = true;
             // 碰撞下方
-        } else if (((ballY + ballWidth) == (yAxis)) && xAixs <= ballX && ballX <= (xAixs + blockWidth)) {
+        } else if (((ballY + ballWidth) === (yAxis)) && xAixs <= ballX && ballX <= (xAixs + blockWidth)) {
             yChange = -yChange;
             console.log("碰撞上方，坐标：（" + ballX + ", " + ballY + ")");
+            beRemove = true;
             // 碰撞左方
-        } else if (((ballX + ballWidth) == (xAixs)) && yAxis <= ballY && ballY <= (yAxis + blockHeight)) {
+        } else if (((ballX + ballWidth) === (xAixs)) && yAxis <= ballY && ballY <= (yAxis + blockHeight)) {
             xChange = -xChange;
             console.log("碰撞左方，坐标：（" + ballX + ", " + ballY + ")");
+            beRemove = true;
              // 碰撞右方
-        } else if (((ballX - ballWidth) == (xAixs + blockWidth)) && yAxis <= ballY && ballY <= (yAxis + blockHeight)) {
+        } else if (((ballX - ballWidth) === (xAixs + blockWidth)) && yAxis <= ballY && ballY <= (yAxis + blockHeight)) {
             xChange = -xChange;
             console.log("碰撞右方，坐标：（" + ballX + ", " + ballY + ")");
+            beRemove = true;
             // 碰撞左下角
         } else if ((ballX + ballWidth) > xAixs) {
 
+        }
+
+        if (beRemove) {
+            removeBlock(block);
+        }
+    }
+
+    /** 被碰撞到的方块要消失 */
+    function removeBlock(block) {
+        block.remove();
+    }
+
+    /** 方块排放工具 */
+
+    /** 一排横向方块 */
+    function horizontalBlock() {
+        for (let i = 0; i < 10; i++) {
+            var blockNode = document.createElement("div");
+            blockNode.className = "block";
+            blockNode.id = "block" + i;
+            let leftPx = 20+50*i;
+            blockNode.style.left = leftPx + "px";
+            blockNode.style.bottom = 100 + "px";
+            document.getElementsByClassName("background")[0].appendChild(blockNode);
+        }
+    }
+
+    /** 心形方块 */
+    function hartBlock() {
+        for (let i = 0; i < 7; i++) {
+            for (let j = 0; j < 6; j++) {
+                if (!(((i===0 || i===3 || i===6) && j===5) ||
+                    ((i===0 || i===6) && j===2 ) ||
+                    ((i===0 || i===1 || i===5 || i===6) && j===1) ||
+                    (i!==3 && j===0))) {
+                    var blockNode = document.createElement("div");
+                    blockNode.className = "block";
+                    let leftPx = 20+50*i;
+                    let bottomPx = 100+30*j;
+                    blockNode.style.left = leftPx + "px";
+                    blockNode.style.bottom = bottomPx + "px";
+                    document.getElementsByClassName("background")[0].appendChild(blockNode);
+                }
+            }
         }
     }
 </script>
