@@ -68,7 +68,7 @@
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
-            <version>1.8.3</version>
+            <version>1.15.3</version>
         </dependency>
 
         <!-- 微信工具包依赖（暂未用到） -->
